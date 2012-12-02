@@ -1,0 +1,91 @@
+
+	<html>
+	<body>
+	<canvas id="canvas" width=600 style="border: 5px solid yellow" height=600></canvas>
+	<script type="text/javascript">
+	/*************************************************************************/
+	var col = 100;
+	var row = 100;
+	var set = new Array(row);
+	var canvas = document.getElementById("canvas");
+	var context = canvas.getContext("2d");
+	
+	for(var i=0;i<row;i+=1){
+	set[i]=new Array(col);
+	}
+	function define(){
+	var x,y;	
+	for(var i=0;i<3000;i++){
+	x = parseInt(Math.random()*row)
+	y = parseInt(Math.random()*col)
+	set[x][y]=parseInt(Math.random()*2);
+	}
+	paint();
+	}
+	function mem(i,j){	
+	var c=0;
+	if(set[i][j+1]==1)c++
+	if(set[i][j-1]==1)c++
+	if(set[i+1][j]==1)c++
+	if(set[i+1][j-1]==1)c++
+	if(set[i+1][j+1]==1)c++
+	if(set[i-1][j]==1)c++
+	if(set[i-1][j-1]==1)c++
+	if(set[i-1][j+1]==1)c++
+	return c;
+	}
+	function paint(){
+	for(var m=0;m<row;m++){
+	for(var n=0;n<col;n++)
+	{	
+	if(set[m][n]==1){
+	context.fillStyle='yellow'
+	}
+	else {
+	context.fillStyle='black'		
+	}
+	context.beginPath();
+	context.fillRect(m*6,n*6,6,6);
+	context.closePath();
+	}}}
+	function run(){
+	define();	
+	setInterval(rules,100);
+	}
+	function rules(){
+        for (i = 0; i < row; i++){
+        for(j = 0; j < col; j++) {
+	if(set[i]!=undefined && set[i-1]!=undefined && set[i+1]!=undefined){ 
+        count = mem(i,j)
+        if (count < 2 || count > 3) {set[i][j] = 0;}
+        if (count === 3) {set[i][j] = 1}        
+	}
+	}
+        }
+	paint();
+	}	
+	function paint(){
+	for(var m=0;m<row;m++){
+	for(var n=0;n<col;n++)
+	{	
+	if(set[m][n]==1){
+	context.fillStyle='yellow'
+	}
+	else {
+	context.fillStyle='black'		
+	}
+	context.beginPath();
+	context.fillRect(m*6,n*6,6,6);
+	context.closePath();
+	}}}
+	function run(){
+	define();	
+	setInterval(rules,50);
+	}
+	
+	</script>
+        <form>
+        <input type="button" id="1" value="Start" onclick="run()">
+        </form>
+	</body>
+	</html>
